@@ -9,6 +9,7 @@
   "author": "skaasten",
   "license": "ISC",
   "dependencies": {
+    "edit-google-spreadsheet": "^0.2.16",
     "express": "^4.11.2",
     "sqlite3": "^3.0.5"
   }
