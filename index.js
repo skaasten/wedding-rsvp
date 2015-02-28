@@ -16,21 +16,25 @@ var options = {
 console.log(options);
 var transporter = nodemailer.createTransport(smtpTransport(options));
 var sendMail = function(info) {
+    var text = JSON.stringify(info, null, 2);
     transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: process.env.EMAIL_TO,
         subject: "New Wedding RSVP", // Subject line
-        text: info
+        text: text
     }, function(error, response){
         if(error){
             console.log(error);
         } else{
-            console.log("Message sent: " + response);
+            console.log("Message sent: " + text);
         }
     });
 };
 
-app.post('/rsvp', function(req, res) {
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
+
+app.post('/rsvp', jsonParser, function(req, res) {
     sendMail(req.body);
     res.send('ok');
 });
