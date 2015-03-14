@@ -34,12 +34,12 @@ var sendMail = function(info) {
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 
-app.post('/rsvp', jsonParser, function(req, res) {
+app.post('/rsvp/rsvp', jsonParser, function(req, res) {
     sendMail(req.body);
     res.send('ok');
 });
 
-app.get('/ping', function(req, res) {
+app.get('/rsvp/ping', function(req, res) {
   res.send('pong');
 });
 
