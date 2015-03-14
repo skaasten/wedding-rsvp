@@ -13,7 +13,15 @@ var options = {
         pass: process.env.EMAIL_PASS
     }
 };
-console.log(options);
+
+var logMessage = function() {
+    if (process.env.NODE_ENV == 'production') {
+        return;
+    }
+    console.log.apply(this, arguments);
+};
+
+logMessage(options);
 var transporter = nodemailer.createTransport(smtpTransport(options));
 var sendMail = function(info) {
     var text = JSON.stringify(info, null, 2);
@@ -24,9 +32,9 @@ var sendMail = function(info) {
         text: text
     }, function(error, response){
         if(error){
-            console.log(error);
+            logMessage(error);
         } else{
-            console.log("Message sent: " + text);
+            logMessage("Message sent: " + text);
         }
     });
 };
@@ -46,5 +54,5 @@ app.get('/rsvp/ping', function(req, res) {
 var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
+  logMessage('Example app listening at http://%s:%s', host, port);
 });
