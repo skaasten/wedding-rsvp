@@ -55,14 +55,21 @@ app.post('/rsvp/rsvp', jsonParser, function(req, res) {
         name: req.body.name,
         meal_choice: req.body.meal_choice,
         guest: req.body.guest,
-        guest_meal: req.body.guest_meal
+        guest_meal: req.body.guest_meal,
+        email: req.body.email
     };
     logMessage(connection);
     connection.query('INSERT INTO rsvps SET ?', rsvp, function(err, result){
-        logMessage('inserted rsvp into database:', err, result);
+        if (result) {
+            logMessage('Inserted rsvp into database:', err, result);
+            res.send('ok');
+        } else {
+            logMessage('Error inserting into database' + err);
+            res.status(500).send('error');
+        }
     });
     sendMail(req.body);
-    res.send('ok');
+
 });
 
 app.get('/rsvp/ping', function(req, res) {
