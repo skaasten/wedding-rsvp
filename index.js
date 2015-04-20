@@ -56,7 +56,8 @@ app.post('/rsvp/rsvp', jsonParser, function(req, res) {
         meal_choice: req.body.meal_choice,
         guest: req.body.guest,
         guest_meal: req.body.guest_meal,
-        email: req.body.email
+        email: req.body.email,
+        can_attend: req.body.can_attend == 'true'
     };
     logMessage(connection);
     connection.query('INSERT INTO rsvps SET ?', rsvp, function(err, result){
